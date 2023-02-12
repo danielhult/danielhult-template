@@ -1,0 +1,28 @@
+.image-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+
+  &--full {
+    .image-grid__image {
+      transform: scale(1);
+    }
+  }
+
+  &__title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 8rem;
+  }
+
+  &__image {
+    transform: scale(0.5);
+    transform-origin: 'center center';
+  }
+}

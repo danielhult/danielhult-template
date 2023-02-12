@@ -1,0 +1,322 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+a {
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role=list],
+ol[role=list] {
+  list-style: none;
+}
+
+ul,
+ol {
+  margin-left: 1em;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  width: auto;
+  max-width: 100% !important;
+  display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+input[type=email] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  background-color: white;
+  color: var(--color-text--dark);
+  font-size: 16px;
+  width: 100%;
+  min-height: 24px;
+  min-width: 200px;
+  position: relative;
+  border: solid 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+[style*="--aspect-ratio"] > :first-child {
+  width: 100%;
+}
+
+[style*="--aspect-ratio"] > img {
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+
+@supports (--custom: property) {
+  [style*="--aspect-ratio"] {
+    position: relative;
+  }
+  [style*="--aspect-ratio"]::before {
+    content: "";
+    display: block;
+    padding-bottom: calc(100% / (var(--aspect-ratio)));
+  }
+  [style*="--aspect-ratio"] > :first-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+}
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  word-wrap: normal !important;
+}
+
+[data-animation=title] span {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+html.is-loading {
+  margin-left: calc(100vw - 100%);
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 120rem;
+  margin-inline: auto;
+}
+
+:root {
+  --section-small: 8rem;
+  --section-medium: 16rem;
+  --section-big: 24rem;
+}
+@media (max-width: 1199px) {
+  :root {
+    --section-small: 6.4rem;
+    --section-medium: 12rem;
+    --section-big: 16rem;
+  }
+}
+@media (max-width: 749px) {
+  :root {
+    --section-small: 4rem;
+    --section-medium: 8rem;
+    --section-big: 12rem;
+  }
+}
+
+.section--relative {
+  position: relative;
+}
+
+.section--small--padding {
+  padding-top: var(--section-small);
+  padding-bottom: var(--section-small);
+}
+
+.section--small--margin {
+  margin-top: var(--section-small) !important;
+  margin-bottom: var(--section-small) !important;
+}
+
+.section--medium--padding {
+  padding-top: var(--section-medium);
+  padding-bottom: var(--section-medium);
+}
+
+.section--medium--margin {
+  margin-top: var(--section-medium);
+  margin-bottom: var(--section-medium);
+}
+
+.section--big--padding {
+  padding-top: var(--section-big);
+  padding-bottom: var(--section-big);
+}
+
+.section--big--margin {
+  margin-top: var(--section-big);
+  margin-bottom: var(--section-big);
+}
+
+@font-face {
+  font-family: "ppneue-regular";
+  src: url("./fonts/ppneueregular.woff2") format("woff2");
+}
+html {
+  font-size: 0.6944444444vw;
+}
+
+body {
+  font-family: "ppneue-regular";
+  font-size: 1.6rem;
+  font-weight: 450;
+  font-variation-settings: "wght" 450;
+  -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-animation=title] span {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.header__nav ul {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+}
+
+.hero {
+  display: grid;
+  place-items: center;
+  position: relative;
+  height: 100vh;
+  width: 100%;
+}
+.image-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+.image-grid--full .image-grid__image {
+  transform: scale(1);
+}
+.image-grid__title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 8rem;
+}
+.image-grid__image {
+  transform: scale(0.5);
+  transform-origin: "center center";
+}
+
+.preloader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+.preloader__section {
+  display: none !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  width: 100%;
+  background-color: black;
+  color: white;
+  z-index: 1;
+}
+.preloader__text {
+  font-size: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.preloader__text span {
+  display: inline-block;
+  overflow: hidden;
+}
+.preloader__text span span {
+  font-size: 4rem;
+}
+.preloader__progress {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+}
+.preloader__line {
+  width: 20rem;
+  height: 2px;
+  background-color: white;
+  transform-origin: center left;
+  transform: scaleX(0);
+  margin-top: 2.4rem;
+}

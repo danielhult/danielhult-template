@@ -1,0 +1,13 @@
+html {
+  &.is-loading {
+    margin-left: calc(100vw - 100%);
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.container {
+  max-width: 120rem;
+  margin-inline: auto;
+}
