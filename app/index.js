@@ -47,8 +47,17 @@ class App {
     });
   }
 
-  _leaveTransition(leaveCallback) {
-    return new Promise(leaveCallback);
+  _getRouteTemplates(fromRoute, nextPageHTML) {
+    let dom = document.createElement('div');
+    dom.innerHTML = nextPageHTML;
+    let nextPageTemplate = dom
+      .querySelector('.page-content')
+      .getAttribute('data-template');
+
+    return {
+      fromRoute: fromRoute,
+      toRoute: nextPageTemplate,
+    };
   }
 
   _changeDOM(nextPageHTML) {
@@ -63,11 +72,19 @@ class App {
     this.page = this.pages.get(this.template);
   }
 
+  _leaveTransition(leaveCallback) {
+    return new Promise(leaveCallback);
+  }
+
   _enterTransition(enterCallback) {
     return new Promise(enterCallback);
   }
 
   async _onRouteChange({ url, push = true }) {
+    if (this.isLoading || this.url === url) {
+      return;
+    }
+
     const request = await window.fetch(url, {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -83,14 +100,21 @@ class App {
         window.history.pushState({}, document.title, url);
       }
 
+      const { fromRoute, toRoute } = this._getRouteTemplates(
+        this.template,
+        nextPageHTML
+      );
+
+      console.log('Going from "' + fromRoute + '" to "' + toRoute + '"');
+
       await this._leaveTransition((resolve) => {
-        this.page.onLeave(resolve, this.template);
+        this.page.onLeave(resolve, toRoute);
       });
 
       this._changeDOM(nextPageHTML);
 
       await this._enterTransition((resolve) => {
-        this.page.onEnter(resolve, this.template);
+        this.page.onEnter(resolve, fromRoute);
       });
 
       this._addEventListeners();

@@ -1,7 +1,25 @@
 .header {
+  position: fixed;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background-color: rgba(29, 27, 27, 0.4);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(100px);
+  border-radius: 20px;
+  padding: 1rem 2rem;
+  color: white;
+
   &__nav ul {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     list-style: none;
+    margin-left: 0;
+    font-size: 1.5rem;
+  }
+
+  a {
+    @include link-hover;
   }
 }

@@ -142,10 +142,13 @@ select {
 }
 
 html.is-loading {
-  margin-left: calc(100vw - 100%);
   height: 100vh;
   width: 100%;
   overflow: hidden;
+}
+
+html.is-loading body {
+  pointer-events: none;
 }
 
 .container {
@@ -153,9 +156,17 @@ html.is-loading {
   margin-inline: auto;
 }
 
+.text {
+  text-indent: 160px;
+  font-size: 4rem;
+  margin-inline: auto;
+  max-width: 80rem;
+  line-height: 1;
+}
+
 :root {
   --section-small: 8rem;
-  --section-medium: 16rem;
+  --section-medium: 8rem;
   --section-big: 24rem;
 }
 @media (max-width: 1199px) {
@@ -234,10 +245,49 @@ body {
   vertical-align: top;
 }
 
+.header {
+  position: fixed;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background-color: rgba(29, 27, 27, 0.4);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(100px);
+  border-radius: 20px;
+  padding: 1rem 2rem;
+  color: white;
+}
 .header__nav ul {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   list-style: none;
+  margin-left: 0;
+  font-size: 1.5rem;
+}
+.header a {
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+}
+.header a::before, .header a::after {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  top: 100%;
+  left: 0;
+  pointer-events: none;
+}
+.header a::before {
+  content: "";
+  transform-origin: 100% 50%;
+  transform: scale3d(0, 1, 1);
+  transition: transform 0.3s;
+}
+.header a:hover::before {
+  transform-origin: 0% 50%;
+  transform: scale3d(1, 1, 1);
 }
 
 .hero {
@@ -247,6 +297,10 @@ body {
   height: 100vh;
   width: 100%;
 }
+.hero__title {
+  font-size: 6.4rem;
+}
+
 .image-grid {
   display: flex;
   align-items: center;
@@ -265,6 +319,8 @@ body {
   transform: translate(-50%, -50%);
   color: white;
   font-size: 8rem;
+  z-index: 2;
+  opacity: 0;
 }
 .image-grid__image {
   transform: scale(0.5);
@@ -279,7 +335,6 @@ body {
   gap: 2rem;
 }
 .preloader__section {
-  display: none !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -291,7 +346,7 @@ body {
   width: 100%;
   background-color: black;
   color: white;
-  z-index: 1;
+  z-index: 1000;
 }
 .preloader__text {
   font-size: 0;

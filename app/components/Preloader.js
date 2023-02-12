@@ -35,6 +35,9 @@ export default class Preloader extends Component {
   }
 
   _createLoader() {
+    if (!this.elements.images.length) {
+      return this.onLoaded();
+    }
     this.elements.images.forEach((image) => {
       image.onload = () => this._onImageLoaded();
       image.src = image.getAttribute('data-src');
@@ -67,7 +70,7 @@ export default class Preloader extends Component {
 
     tl.to(this.elements.splittedText, {
       autoAlpha: 0,
-      duration: 1.5,
+      duration: 1,
       ease: 'expo.out',
       stagger: 0.1,
       yPercent: -100,
@@ -84,7 +87,7 @@ export default class Preloader extends Component {
         this.element,
         {
           yPercent: -100,
-          duration: 1.5,
+          duration: 1,
           ease: 'power3.out',
         },
         '-=0.5'
