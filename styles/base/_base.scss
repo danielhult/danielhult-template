@@ -16,9 +16,13 @@ html.is-loading body {
 }
 
 .text {
-  text-indent: 160px;
   font-size: 4rem;
   margin-inline: auto;
   max-width: 80rem;
   line-height: 1;
+
+  span {
+    display: inline-block;
+    overflow: hidden;
+  }
 }

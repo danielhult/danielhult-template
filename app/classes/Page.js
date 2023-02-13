@@ -1,9 +1,10 @@
+import PageTransitions from './PageTransitions';
 import TextReveal from '../animations/TextReveal';
-import gsap from 'gsap';
 import each from 'lodash/each';
 
-export default class Page {
+export default class Page extends PageTransitions {
   constructor() {
+    super();
     this._setInitialState();
     this._createAnimations();
   }
@@ -46,21 +47,5 @@ export default class Page {
     this.animationTitles = this.titles.forEach(
       (title) => new TextReveal({ element: title })
     );
-  }
-
-  onLeave(resolve) {
-    gsap.to('.page-content', {
-      autoAlpha: 0,
-      duration: 0.5,
-      onComplete: resolve,
-    });
-  }
-
-  onEnter(resolve) {
-    gsap.to('.page-content', {
-      autoAlpha: 1,
-      duration: 0.5,
-      onComplete: resolve,
-    });
   }
 }

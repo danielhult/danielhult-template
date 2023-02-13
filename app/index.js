@@ -76,6 +76,10 @@ class App {
     return new Promise(leaveCallback);
   }
 
+  _beforeEnterTransition(beforeEnterCallback) {
+    return new Promise(beforeEnterCallback);
+  }
+
   _enterTransition(enterCallback) {
     return new Promise(enterCallback);
   }
@@ -112,6 +116,10 @@ class App {
       });
 
       this._changeDOM(nextPageHTML);
+
+      await this._beforeEnterTransition((resolve) => {
+        this.page.onBeforeEnter(resolve, fromRoute);
+      });
 
       await this._enterTransition((resolve) => {
         this.page.onEnter(resolve, fromRoute);

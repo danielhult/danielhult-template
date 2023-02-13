@@ -285,10 +285,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Page)
 /* harmony export */ });
-/* harmony import */ var _animations_TextReveal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../animations/TextReveal */ "./app/animations/TextReveal.js");
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
-/* harmony import */ var lodash_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/each */ "./node_modules/lodash/each.js");
-/* harmony import */ var lodash_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_each__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _PageTransitions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PageTransitions */ "./app/classes/PageTransitions.js");
+/* harmony import */ var _animations_TextReveal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../animations/TextReveal */ "./app/animations/TextReveal.js");
+/* harmony import */ var lodash_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/each */ "./node_modules/lodash/each.js");
+/* harmony import */ var lodash_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_each__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -301,32 +301,44 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
-var Page = /*#__PURE__*/function () {
+var Page = /*#__PURE__*/function (_PageTransitions) {
+  _inherits(Page, _PageTransitions);
+  var _super = _createSuper(Page);
   function Page() {
+    var _this;
     _classCallCheck(this, Page);
-    this._setInitialState();
-    this._createAnimations();
+    _this = _super.call(this);
+    _this._setInitialState();
+    _this._createAnimations();
+    return _this;
   }
   _createClass(Page, [{
     key: "_setupSelectors",
     value: function _setupSelectors() {
-      var _this = this;
+      var _this2 = this;
       this.element = this.selector instanceof window.HTMLElement ? this.selector : document.querySelector(this.selector);
       this.elements = {};
-      lodash_each__WEBPACK_IMPORTED_MODULE_1___default()(this.selectors, function (selector, key) {
+      lodash_each__WEBPACK_IMPORTED_MODULE_2___default()(this.selectors, function (selector, key) {
         if (selector instanceof window.HTMLElement || selector instanceof window.NodeList) {
-          _this.elements[key] = selector;
+          _this2.elements[key] = selector;
         } else if (Array.isArray(selector)) {
-          _this.elements[key] = selector;
+          _this2.elements[key] = selector;
         } else {
-          _this.elements[key] = _this.element.querySelectorAll(selector);
-          if (_this.elements[key].length === 0) {
-            _this.elements[key] = null;
-          } else if (_this.elements[key].length === 1) {
-            _this.elements[key] = _this.element.querySelector(selector);
+          _this2.elements[key] = _this2.element.querySelectorAll(selector);
+          if (_this2.elements[key].length === 0) {
+            _this2.elements[key] = null;
+          } else if (_this2.elements[key].length === 1) {
+            _this2.elements[key] = _this2.element.querySelector(selector);
           }
         }
       });
@@ -341,31 +353,66 @@ var Page = /*#__PURE__*/function () {
     key: "_createAnimations",
     value: function _createAnimations() {
       this.animationTitles = this.titles.forEach(function (title) {
-        return new _animations_TextReveal__WEBPACK_IMPORTED_MODULE_0__["default"]({
+        return new _animations_TextReveal__WEBPACK_IMPORTED_MODULE_1__["default"]({
           element: title
         });
       });
     }
-  }, {
+  }]);
+  return Page;
+}(_PageTransitions__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+/***/ }),
+
+/***/ "./app/classes/PageTransitions.js":
+/*!****************************************!*\
+  !*** ./app/classes/PageTransitions.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PageTransitions)
+/* harmony export */ });
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+var PageTransitions = /*#__PURE__*/function () {
+  function PageTransitions() {
+    _classCallCheck(this, PageTransitions);
+  }
+  _createClass(PageTransitions, [{
     key: "onLeave",
     value: function onLeave(resolve) {
-      gsap__WEBPACK_IMPORTED_MODULE_2__["default"].to('.page-content', {
+      gsap__WEBPACK_IMPORTED_MODULE_0__["default"].to('.page-content', {
         autoAlpha: 0,
         duration: 0.5,
         onComplete: resolve
       });
     }
   }, {
+    key: "onBeforeEnter",
+    value: function onBeforeEnter(resolve) {
+      resolve();
+    }
+  }, {
     key: "onEnter",
     value: function onEnter(resolve) {
-      gsap__WEBPACK_IMPORTED_MODULE_2__["default"].to('.page-content', {
+      gsap__WEBPACK_IMPORTED_MODULE_0__["default"].to('.page-content', {
         autoAlpha: 1,
         duration: 0.5,
         onComplete: resolve
       });
     }
   }]);
-  return Page;
+  return PageTransitions;
 }();
 
 
@@ -607,6 +654,11 @@ var App = /*#__PURE__*/function () {
       return new Promise(leaveCallback);
     }
   }, {
+    key: "_beforeEnterTransition",
+    value: function _beforeEnterTransition(beforeEnterCallback) {
+      return new Promise(beforeEnterCallback);
+    }
+  }, {
     key: "_enterTransition",
     value: function _enterTransition(enterCallback) {
       return new Promise(enterCallback);
@@ -640,7 +692,7 @@ var App = /*#__PURE__*/function () {
             case 8:
               nextPageHTML = _context.sent;
               if (!(request.status === 200)) {
-                _context.next = 21;
+                _context.next = 23;
                 break;
               }
               _classes_LoadManager__WEBPACK_IMPORTED_MODULE_0__.LoadManager.setLoading();
@@ -656,13 +708,18 @@ var App = /*#__PURE__*/function () {
             case 16:
               this._changeDOM(nextPageHTML);
               _context.next = 19;
+              return this._beforeEnterTransition(function (resolve) {
+                _this.page.onBeforeEnter(resolve, fromRoute);
+              });
+            case 19:
+              _context.next = 21;
               return this._enterTransition(function (resolve) {
                 _this.page.onEnter(resolve, fromRoute);
               });
-            case 19:
+            case 21:
               this._addEventListeners();
               _classes_LoadManager__WEBPACK_IMPORTED_MODULE_0__.LoadManager.onLoadingComplete();
-            case 21:
+            case 23:
             case "end":
               return _context.stop();
           }
@@ -714,13 +771,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ About)
 /* harmony export */ });
 /* harmony import */ var _classes_Page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../classes/Page */ "./app/classes/Page.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
 /* harmony import */ var _utils_textSplit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/textSplit */ "./app/utils/textSplit.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
@@ -738,7 +796,38 @@ var About = /*#__PURE__*/function (_Page) {
     _classCallCheck(this, About);
     return _super.call(this);
   }
-  return _createClass(About);
+  _createClass(About, [{
+    key: "onBeforeEnter",
+    value: function onBeforeEnter(resolve, fromRoute) {
+      this.text = document.querySelector('.text p');
+      (0,_utils_textSplit__WEBPACK_IMPORTED_MODULE_1__.split)({
+        element: this.text
+      });
+      this.splitted = document.querySelectorAll('.text span');
+      gsap__WEBPACK_IMPORTED_MODULE_2__["default"].set(this.splitted, {
+        autoAlpha: 0,
+        y: 64
+      });
+      gsap__WEBPACK_IMPORTED_MODULE_2__["default"].set('.page-content', {
+        autoAlpha: 1,
+        onComplete: resolve
+      });
+    }
+  }, {
+    key: "onEnter",
+    value: function onEnter(resolve, fromRoute) {
+      gsap__WEBPACK_IMPORTED_MODULE_2__["default"].to(this.splitted, {
+        autoAlpha: 1,
+        y: 0,
+        delay: 0.3,
+        ease: 'expo.out',
+        duration: 2,
+        stagger: 0.006,
+        onComplete: resolve
+      });
+    }
+  }]);
+  return About;
 }(_classes_Page__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
