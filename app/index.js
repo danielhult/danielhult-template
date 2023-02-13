@@ -4,7 +4,6 @@ import Preloader from './components/Preloader';
 import Home from './pages/Home';
 import About from './pages/About';
 import Collections from './pages/Collections';
-
 class App {
   constructor() {
     this._setInitialState();
@@ -20,8 +19,8 @@ class App {
   }
 
   _createPreloader() {
-    this.preloader = new Preloader();
     LoadManager.setLoading();
+    this.preloader = new Preloader();
     this.preloader.once('loaded', this.onLoadingFinished.bind(this));
   }
 
@@ -36,14 +35,13 @@ class App {
     this.pages.set('home', new Home());
     this.pages.set('about', new About());
     this.pages.set('collections', new Collections());
-
     this.page = this.pages.get(this.template);
   }
 
   _onPopStateChange() {
     this._onRouteChange({
       url: window.location.pathname,
-      push: false,
+      push: true,
     });
   }
 
@@ -85,9 +83,7 @@ class App {
   }
 
   async _onRouteChange({ url, push = true }) {
-    if (this.isLoading || this.url === url) {
-      return;
-    }
+    if (window.isAppLoading || this.url === url) return;
 
     const request = await window.fetch(url, {
       headers: {
@@ -96,6 +92,8 @@ class App {
     });
 
     const nextPageHTML = await request.text();
+
+    console.log('Request status: ' + request.status);
 
     if (request.status === 200) {
       LoadManager.setLoading();
@@ -109,7 +107,7 @@ class App {
         nextPageHTML
       );
 
-      console.log('Going from "' + fromRoute + '" to "' + toRoute + '"');
+      console.log(`Going from ${fromRoute} to ${toRoute}`);
 
       await this._leaveTransition((resolve) => {
         this.page.onLeave(resolve, toRoute);
@@ -127,6 +125,8 @@ class App {
 
       this._addEventListeners();
       LoadManager.onLoadingComplete();
+    } else {
+      throw new Error('Next page could not be loaded properly.');
     }
   }
 
@@ -137,7 +137,6 @@ class App {
       link.onclick = (event) => {
         event.preventDefault();
         const { href } = link;
-
         this._onRouteChange({ url: href });
       };
     });

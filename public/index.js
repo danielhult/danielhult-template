@@ -323,6 +323,13 @@ var Page = /*#__PURE__*/function (_PageTransitions) {
     return _this;
   }
   _createClass(Page, [{
+    key: "create",
+    value: function create() {
+      this.onEnter();
+      this._setInitialState();
+      this._createAnimations();
+    }
+  }, {
     key: "_setupSelectors",
     value: function _setupSelectors() {
       var _this2 = this;
@@ -488,6 +495,7 @@ var Preloader = /*#__PURE__*/function (_Component) {
     value: function _createLoader() {
       var _this2 = this;
       if (!this.elements.images.length) {
+        this.elements.percentNumber.innerHTML = '100';
         return this.onLoaded();
       }
       this.elements.images.forEach(function (image) {
@@ -522,18 +530,18 @@ var Preloader = /*#__PURE__*/function (_Component) {
       });
       tl.to(this.elements.splittedText, {
         autoAlpha: 0,
-        duration: 1,
+        duration: 1.5,
         ease: 'expo.out',
         stagger: 0.1,
         yPercent: -100
       }).to(this.elements.progress, {
         autoAlpha: 0,
         duration: 1
-      }, '-=1.3').to(this.element, {
+      }, '-=1.5').to(this.element, {
         yPercent: -100,
         duration: 1,
         ease: 'power3.out'
-      }, '-=0.5');
+      }, '-=1.1');
     }
   }, {
     key: "destroy",
@@ -598,8 +606,8 @@ var App = /*#__PURE__*/function () {
   }, {
     key: "_createPreloader",
     value: function _createPreloader() {
-      this.preloader = new _components_Preloader__WEBPACK_IMPORTED_MODULE_1__["default"]();
       _classes_LoadManager__WEBPACK_IMPORTED_MODULE_0__.LoadManager.setLoading();
+      this.preloader = new _components_Preloader__WEBPACK_IMPORTED_MODULE_1__["default"]();
       this.preloader.once('loaded', this.onLoadingFinished.bind(this));
     }
   }, {
@@ -622,7 +630,7 @@ var App = /*#__PURE__*/function () {
     value: function _onPopStateChange() {
       this._onRouteChange({
         url: window.location.pathname,
-        push: false
+        push: true
       });
     }
   }, {
@@ -673,7 +681,7 @@ var App = /*#__PURE__*/function () {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               url = _ref.url, _ref$push = _ref.push, push = _ref$push === void 0 ? true : _ref$push;
-              if (!(this.isLoading || this.url === url)) {
+              if (!(window.isAppLoading || this.url === url)) {
                 _context.next = 3;
                 break;
               }
@@ -691,8 +699,9 @@ var App = /*#__PURE__*/function () {
               return request.text();
             case 8:
               nextPageHTML = _context.sent;
+              console.log('Request status: ' + request.status);
               if (!(request.status === 200)) {
-                _context.next = 23;
+                _context.next = 26;
                 break;
               }
               _classes_LoadManager__WEBPACK_IMPORTED_MODULE_0__.LoadManager.setLoading();
@@ -700,26 +709,30 @@ var App = /*#__PURE__*/function () {
                 window.history.pushState({}, document.title, url);
               }
               _this$_getRouteTempla = this._getRouteTemplates(this.template, nextPageHTML), fromRoute = _this$_getRouteTempla.fromRoute, toRoute = _this$_getRouteTempla.toRoute;
-              console.log('Going from "' + fromRoute + '" to "' + toRoute + '"');
-              _context.next = 16;
+              console.log("Going from ".concat(fromRoute, " to ").concat(toRoute));
+              _context.next = 17;
               return this._leaveTransition(function (resolve) {
                 _this.page.onLeave(resolve, toRoute);
               });
-            case 16:
+            case 17:
               this._changeDOM(nextPageHTML);
-              _context.next = 19;
+              _context.next = 20;
               return this._beforeEnterTransition(function (resolve) {
                 _this.page.onBeforeEnter(resolve, fromRoute);
               });
-            case 19:
-              _context.next = 21;
+            case 20:
+              _context.next = 22;
               return this._enterTransition(function (resolve) {
                 _this.page.onEnter(resolve, fromRoute);
               });
-            case 21:
+            case 22:
               this._addEventListeners();
               _classes_LoadManager__WEBPACK_IMPORTED_MODULE_0__.LoadManager.onLoadingComplete();
-            case 23:
+              _context.next = 27;
+              break;
+            case 26:
+              throw new Error('Next page could not be loaded properly.');
+            case 27:
             case "end":
               return _context.stop();
           }

@@ -36,8 +36,10 @@ export default class Preloader extends Component {
 
   _createLoader() {
     if (!this.elements.images.length) {
+      this.elements.percentNumber.innerHTML = '100';
       return this.onLoaded();
     }
+
     this.elements.images.forEach((image) => {
       image.onload = () => this._onImageLoaded();
       image.src = image.getAttribute('data-src');
@@ -70,7 +72,7 @@ export default class Preloader extends Component {
 
     tl.to(this.elements.splittedText, {
       autoAlpha: 0,
-      duration: 1,
+      duration: 1.5,
       ease: 'expo.out',
       stagger: 0.1,
       yPercent: -100,
@@ -81,7 +83,7 @@ export default class Preloader extends Component {
           autoAlpha: 0,
           duration: 1,
         },
-        '-=1.3'
+        '-=1.5'
       )
       .to(
         this.element,
@@ -90,7 +92,7 @@ export default class Preloader extends Component {
           duration: 1,
           ease: 'power3.out',
         },
-        '-=0.5'
+        '-=1.1'
       );
   }
 

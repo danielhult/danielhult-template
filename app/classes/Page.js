@@ -9,6 +9,12 @@ export default class Page extends PageTransitions {
     this._createAnimations();
   }
 
+  create() {
+    this.onEnter();
+    this._setInitialState();
+    this._createAnimations();
+  }
+
   _setupSelectors() {
     this.element =
       this.selector instanceof window.HTMLElement
