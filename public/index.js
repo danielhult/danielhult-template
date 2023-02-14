@@ -943,8 +943,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Home)
 /* harmony export */ });
 /* harmony import */ var _classes_Page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../classes/Page */ "./app/classes/Page.js");
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var _utils_smoothOriginChange__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/smoothOriginChange */ "./app/utils/smoothOriginChange.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -959,20 +966,63 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
+
 var Home = /*#__PURE__*/function (_Page) {
   _inherits(Home, _Page);
   var _super = _createSuper(Home);
   function Home() {
+    var _this;
     _classCallCheck(this, Home);
-    return _super.call(this, {
+    _this = _super.call(this, {
       element: 'h1'
     });
+    _this.clickedImage = null;
+    _this._addImageListeners();
+    return _this;
   }
   _createClass(Home, [{
+    key: "_addImageListeners",
+    value: function _addImageListeners() {
+      var _this2 = this;
+      this.images = _toConsumableArray(document.querySelectorAll('.image-grid img'));
+      this.images.forEach(function (image, index) {
+        image.addEventListener('click', _this2._positionImages.bind(_this2));
+      });
+    }
+  }, {
+    key: "_positionImages",
+    value: function _positionImages(event) {
+      var _this3 = this;
+      this.clickedImage = event.target;
+      this.imagePositions = this.images.map(function (image) {
+        return image.getBoundingClientRect();
+      });
+      this.clickedImage.style.zIndex = '10';
+      gsap__WEBPACK_IMPORTED_MODULE_2__["default"].set(this.clickedImage, {
+        scale: 0.2
+      });
+      var tl = gsap__WEBPACK_IMPORTED_MODULE_2__["default"].timeline();
+      this.images.forEach(function (image, index) {
+        tl.to(image, {
+          x: window.innerWidth / 2 - (_this3.imagePositions[index].left + _this3.imagePositions[index].width / 2),
+          y: window.innerHeight / 2 - (_this3.imagePositions[index].top + _this3.imagePositions[index].height / 2),
+          duration: 2,
+          ease: 'expo.inOut'
+        }, 0.1 * index);
+      });
+      tl.call(function () {
+        return (0,_utils_smoothOriginChange__WEBPACK_IMPORTED_MODULE_1__.smoothOriginChange)(_this3.clickedImage, 'center center');
+      }).to(this.clickedImage, {
+        scale: 1,
+        ease: 'expo.inOut',
+        duration: 1.5
+      });
+    }
+  }, {
     key: "onLeave",
     value: function onLeave(resolve, toRoute) {
       if (toRoute === 'collections') {
-        gsap__WEBPACK_IMPORTED_MODULE_1__["default"].fromTo('.image-grid img', {
+        gsap__WEBPACK_IMPORTED_MODULE_2__["default"].fromTo('.image-grid img', {
           scale: 0.5
         }, {
           scale: 1,
@@ -981,7 +1031,7 @@ var Home = /*#__PURE__*/function (_Page) {
           onComplete: resolve
         });
       } else {
-        gsap__WEBPACK_IMPORTED_MODULE_1__["default"].to('.page-content', {
+        gsap__WEBPACK_IMPORTED_MODULE_2__["default"].to('.page-content', {
           autoAlpha: 0,
           duration: 0.5,
           onComplete: resolve
@@ -994,7 +1044,7 @@ var Home = /*#__PURE__*/function (_Page) {
       if (fromRoute === 'collections') {
         resolve();
       } else {
-        gsap__WEBPACK_IMPORTED_MODULE_1__["default"].to('.page-content', {
+        gsap__WEBPACK_IMPORTED_MODULE_2__["default"].to('.page-content', {
           onComplete: resolve,
           autoAlpha: 1,
           duration: 2,
@@ -1006,6 +1056,34 @@ var Home = /*#__PURE__*/function (_Page) {
   return Home;
 }(_classes_Page__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
+
+/***/ }),
+
+/***/ "./app/utils/smoothOriginChange.js":
+/*!*****************************************!*\
+  !*** ./app/utils/smoothOriginChange.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "smoothOriginChange": () => (/* binding */ smoothOriginChange)
+/* harmony export */ });
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+
+var smoothOriginChange = function smoothOriginChange(element, transformOrigin) {
+  if (typeof element === "string") {
+    element = document.querySelector(element);
+  }
+  var before = element.getBoundingClientRect();
+  element.style.transformOrigin = transformOrigin;
+  var after = element.getBoundingClientRect();
+  gsap__WEBPACK_IMPORTED_MODULE_0__["default"].set(element, {
+    x: "+=" + (before.left - after.left),
+    y: "+=" + (before.top - after.top)
+  });
+};
 
 /***/ }),
 

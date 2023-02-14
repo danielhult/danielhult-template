@@ -53,7 +53,7 @@ a:not([class]) {
 img,
 picture {
   width: auto;
-  max-width: 100% !important;
+  max-width: 100%;
   display: block;
   -o-object-fit: cover;
      object-fit: cover;
@@ -306,15 +306,11 @@ body {
 }
 
 .image-grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  display: block;
   height: 100vh;
   width: 100%;
   overflow: hidden;
-}
-.image-grid--full .image-grid__image {
-  transform: scale(1);
 }
 .image-grid__title {
   position: absolute;
@@ -327,8 +323,42 @@ body {
   opacity: 0;
 }
 .image-grid__image {
-  transform: scale(0.5);
-  transform-origin: "center center";
+  position: absolute;
+  transform: scale(0.2);
+  display: block;
+  transform-origin: 0% 0%;
+}
+.image-grid__image:nth-child(1) {
+  top: 10%;
+  left: 10%;
+}
+.image-grid__image:nth-child(2) {
+  top: 6%;
+  left: 33%;
+}
+.image-grid__image:nth-child(3) {
+  top: 13%;
+  left: 55%;
+}
+.image-grid__image:nth-child(4) {
+  top: 3%;
+  left: 77%;
+}
+.image-grid__image:nth-child(5) {
+  top: 60%;
+  left: 3%;
+}
+.image-grid__image:nth-child(6) {
+  top: 55%;
+  left: 26%;
+}
+.image-grid__image:nth-child(7) {
+  top: 60%;
+  left: 50%;
+}
+.image-grid__image:nth-child(8) {
+  top: 60%;
+  left: 76%;
 }
 
 .preloader {
